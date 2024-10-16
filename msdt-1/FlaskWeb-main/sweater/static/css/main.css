@@ -1,0 +1,197 @@
+*{
+    margin: 0;
+    padding: 0;
+}
+
+/* Шрифты */
+
+.rubik-mono-one-regular {
+    font-family: "Rubik Mono One", monospace;
+    font-weight: 400;
+    font-style: normal;
+    font-size: 12px;
+}
+
+.kelly-slab-regular {
+    font-family: "Kelly Slab", sans-serif;
+    font-weight: 400;
+    font-style: normal;
+}
+
+/* Шапка */
+
+/* Стилизация иконки */
+.header__img {
+    height: 48px;
+    width: 48px;
+}
+
+.link_img {
+    text-decoration: none; /* Убрать подсветку снизу */
+    vertical-align: middle; /* Выравнивание по вертикали */
+}
+
+/* Кнопки в правом верхнем углу */
+
+.Auth_buttons {
+    float: right; /* Помещаем контейнер с кнопками вправо */
+    margin: 12px 12px 0px 0px; /* Отступ сверху и справа */
+}
+
+.Auth_buttons button {
+    margin-left: 1px; /* Отступ между кнопками */
+    padding: 5px 10px; /* Внутренние отступы кнопок */
+    color: black; /* Цвет текста кнопок */
+    border: none; /* Убираем границу у кнопок */
+    border-radius: 5px; /* Закругляем углы */
+}
+
+.Auth_buttons button:hover {
+    background-color: white; /* Цвет фона при наведении */
+}
+
+/* Основная работа */
+
+header{
+    background-color: black; /* Цвет задника черный */
+    color: #cdcdcd; /* Слов серый??? задника черный */
+    padding: 15px; /* Пространство между его содержимым и его границей */
+}
+
+.Top_menu {
+    display: inline-block; /* Чтобы все не шло построчно */
+}
+
+.Top_menu li {
+    list-style-type: none; /* Убрать точки между элементами */
+    display: inline-block; /* Чтобы все не шло построчно */
+    margin-right: 10px; /* Отступы справа */
+    vertical-align: middle; /* Выравнивание по вертикали */
+}
+
+.Top_menu li:last-child {
+    margin-right: 0; /* Убрать отступ справа у последнего элемента */
+}
+
+.Top_menu li a {
+    padding: 5px 10px; /* Внутренние отступы для ссылок */
+    text-decoration: none; /* Убрать подсветку снизу */
+}
+
+.Top_menu li a:visited {
+    color: inherit; /* Наследовать цвет текста от родительского элемента */
+}
+
+.Top_menu li a:hover {
+    background-color: white; /* Цвет фона ссылок */
+    color: black; /* Цвет текста ссылок */
+    border-radius: 5px; /* Закругленные углы */
+}
+
+/* Тело */
+
+.title {
+    text-align: center;
+    margin: 10px;
+}
+
+.main_inf {
+    font-size: 24px;
+    text-align: justify;
+    margin: 0px 10px;
+}
+
+ol {
+    counter-reset: item;
+    margin-left: 0;
+    padding-left: 20px;
+}
+
+ol li {
+    display: block;
+    margin-bottom: 0.5em;
+}
+
+ol li:before {
+    content: counters(item, ".") ". ";
+    counter-increment: item;
+    font-weight: bold; /* Добавим полужирное начертание к номеру */
+}
+
+main {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.task-container {
+    border: 1px solid #ccc;
+    padding: 10px;
+    margin-bottom: 20px;
+    border-radius: 5px;
+    max-width: 600px;
+    width: 100%; /* Чтобы контейнеры занимали всю доступную ширину */
+}
+
+.task-container button {
+    background-color: green; /* Задаем зеленый цвет кнопки */
+    color: white; /* Задаем белый цвет текста на кнопке */
+    border: none;
+    padding: 10px 20px;
+    border-radius: 5px;
+    cursor: pointer; /* Придаем указательную руку при наведении */
+    transition: background-color 0.3s; /* Анимация изменения цвета */
+}
+
+.task-container button:hover {
+    background-color: darkgreen; /* Изменяем цвет кнопки при наведении */
+}
+
+.task-info {
+    margin-bottom: 10px;
+}
+
+.form-group {
+    margin-bottom: 15px;
+}
+
+.form-control {
+    width: 97%;
+    padding: 8px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+
+.table {
+    width: 100%;
+    border-collapse: collapse; /* Объединяем границы ячеек */
+    margin-top: 20px;
+}
+
+.table th,
+.table td {
+    border: 1px solid #ccc; /* Границы ячеек */
+    padding: 8px; /* Внутренние отступы */
+}
+
+.table th {
+    background-color: #f2f2f2; /* Цвет фона заголовков */
+    text-align: center; /* Выравнивание текста по центру */
+}
+
+.table td {
+    text-align: center; /* Выравнивание текста по центру */
+}
+
+/* Стилизация статусов */
+.status-done {
+    color: green; /* зеленый цвет для статуса "Выполнено" */
+}
+
+.status-pending {
+    color: red; /* красный цвет для статуса "Не выполнено" */
+}
+
+.status-inprogress {
+    color: gray; /* серый цвет для статуса "В процессе" */
+}

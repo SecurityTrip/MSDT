@@ -1,0 +1,30 @@
+<!doctype html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+
+    <meta name="author" content="Danila Nenashev" />
+
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/main.css') }}">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Rubik+Mono+One&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Kelly+Slab&display=swap" rel="stylesheet">
+
+    <title>Домашняя страница</title>
+</head>
+
+<body>
+    <header class='rubik-mono-one-regular'>
+        <a class="link_img" href="/">
+          <img class="header__img" src="{{ url_for('static', filename='img/icon_base.png') }}" alt="icon_base">
+        </a>
+    </header>
+
+    <main>
+        <h1 class="title kelly-slab-regular"><strong>Упс. <br>Что-то пошло не так.</strong></h1>
+    </main>
+
+</body>
+</html>

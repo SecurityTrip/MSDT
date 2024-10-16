@@ -1,0 +1,52 @@
+<!doctype html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+
+    <meta name="author" content="Danila Nenashev" />
+
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/main.css') }}">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Rubik+Mono+One&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Kelly+Slab&display=swap" rel="stylesheet">
+
+    <title>Зайти</title>
+</head>
+<body>
+    <header class='rubik-mono-one-regular'>
+        <a class="link_img" href="/">
+          <img class="header__img" src="{{ url_for('static', filename='img/icon_base.png') }}" alt="icon_base">
+        </a>
+
+        <div class="Auth_buttons">
+                <button class='rubik-mono-one-regular' onclick="window.location.href = '{{ url_for('login_page') }}';">Войти</button>
+                <button class='rubik-mono-one-regular' onclick="window.location.href = '{{ url_for('registration') }}';">Зарегистрироваться</button>
+        </div>
+    </header>
+
+    <main>
+        <h1 class="title kelly-slab-regular"><strong>Вход</strong></h1>
+
+        <form class="task-container form-group" method="post">
+            <input class="form-group form-control" type="text" name="login" placeholder="Введите логин"><br>
+
+            <input class="form-group form-control" type="text" name="password" placeholder="Введите пароль"><br>
+
+            <button class="kelly-slab-regular" type="submit">Зайти</button>
+        </form>
+
+        {% with messages = get_flashed_messages() %}
+            {% if messages %}
+                <div class="flash-messages">
+                    {% for message in messages %}
+                        <div class="flash-message">{{ message }}</div>
+                    {% endfor %}
+                </div>
+            {% endif %}
+        {% endwith %}
+    </main>
+
+</body>
+</html>

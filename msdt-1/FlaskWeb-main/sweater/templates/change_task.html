@@ -1,0 +1,67 @@
+<!doctype html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+
+    <meta name="author" content="Danila Nenashev" />
+
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/main.css') }}">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Rubik+Mono+One&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Kelly+Slab&display=swap" rel="stylesheet">
+
+    <title>Изменение задачи</title>
+</head>
+<body>
+    <header class='rubik-mono-one-regular'>
+        <a class="link_img" href="/">
+          <img class="header__img" src="{{ url_for('static', filename='img/icon_base.png') }}" alt="icon_base">
+        </a>
+
+        <div class="Top_menu">
+            <ul>
+                {% if current_user.role == 'moderator' %}
+                    <li><a href="{{ url_for('create_task') }}">Создание задачи</a></li>
+                    <li><a href="{{ url_for('change_task') }}" class="nav-link px-3 link-secondary" >Изменение задачи</a></li>
+                    <li><a href="{{ url_for('all_history') }}" class="nav-link px-3 link-secondary" >История всех задач</a></li>
+                    <li><a href="{{ url_for('user_stat') }}" class="nav-link px-3 link-secondary" >Статистика работников</a></li>
+                {% endif %}
+            </ul>
+        </div>
+
+        <div class="Auth_buttons">
+                <button class='rubik-mono-one-regular' onclick="window.location.href = '{{ url_for('logout') }}';">Выйти</button>
+        </div>
+    </header>
+
+    <main>
+        <h1 class="title kelly-slab-regular"><strong>Изменение задачи</strong></h1>
+
+        {% for task in tasks %}
+        <br>
+
+            <div class="task-container kelly-slab-regular">
+                <p class="task-info"><strong>Название: </strong> {{ task.name }}</p>
+                <p class="task-info"><strong>Описание: </strong> {{ task.description }}</p>
+                <p class="task-info">
+                    <strong>Выполняют:</strong>
+                    {% for user_task in task.users_tasks %}
+                        {{ user_task.user.login }},
+                    {% endfor %}
+                </p>
+                <p class="task-info"><strong>Дата начала: </strong> {{ task.start_date }}</p>
+                <p class="task-info"><strong>Дедлайн:</strong> {{ task.deadline }}</p>
+                <p class="task-info"><strong>Сложность:</strong> {{ task.category.complexity }}</p>
+                <form action="{{ url_for('edit_task', task_id=task.task_id) }}" method="GET">
+                    <button class="kelly-slab-regular">Изменить</button>
+                </form>
+            </div>
+
+        <br>
+        {% endfor %}
+    </main>
+
+</body>
+</html>

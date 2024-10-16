@@ -1,0 +1,66 @@
+<!doctype html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+
+    <meta name="author" content="Danila Nenashev" />
+
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/main.css') }}">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Rubik+Mono+One&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Kelly+Slab&display=swap" rel="stylesheet">
+
+    <title>Статистика работников</title>
+</head>
+<body>
+    <header class='rubik-mono-one-regular'>
+        <a class="link_img" href="/">
+          <img class="header__img" src="{{ url_for('static', filename='img/icon_base.png') }}" alt="icon_base">
+        </a>
+
+        <div class="Top_menu">
+            <ul>
+                {% if current_user.role == 'moderator' %}
+                    <li><a href="{{ url_for('create_task') }}">Создание задачи</a></li>
+                    <li><a href="{{ url_for('change_task') }}" class="nav-link px-3 link-secondary" >Изменение задачи</a></li>
+                    <li><a href="{{ url_for('all_history') }}" class="nav-link px-3 link-secondary" >История всех задач</a></li>
+                    <li><a href="{{ url_for('user_stat') }}" class="nav-link px-3 link-secondary" >Статистика работников</a></li>
+                {% endif %}
+            </ul>
+        </div>
+
+        <div class="Auth_buttons">
+                <button class='rubik-mono-one-regular' onclick="window.location.href = '{{ url_for('logout') }}';">Выйти</button>
+        </div>
+    </header>
+
+    <main>
+        <h1 class="title kelly-slab-regular"><strong>Статистика работников</strong></h1>
+
+        <table class="table rubik-mono-one-regular">
+            <thead>
+                <tr>
+                    <th scope="col">Работник</th>
+                    <th scope="col">Рейтинг</th>
+                    <th scope="col">Выполненные задачи</th>
+                    <th scope="col">Невыполненные задачи</th>
+                    <th scope="col">Задачи в процессе</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for user_stat in user_stats %}
+                <tr>
+                    <td>{{ user_stat.login }}</td>
+                    <td>{{ user_stat.rating }}</td>
+                    <td>{{ user_stat.completed_tasks }}</td>
+                    <td>{{ user_stat.failed_tasks }}</td>
+                    <td>{{ user_stat.in_progress_tasks }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </main>
+</body>
+</html>

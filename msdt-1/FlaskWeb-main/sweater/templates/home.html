@@ -1,0 +1,78 @@
+<!doctype html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+
+    <meta name="author" content="Danila Nenashev" />
+
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/main.css') }}">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Rubik+Mono+One&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Kelly+Slab&display=swap" rel="stylesheet">
+
+    <title>Домашняя страница</title>
+</head>
+
+<body>
+    <header class="rubik-mono-one-regular">
+
+        <a class="link_img" href="/">
+          <img class="header__img" src="{{ url_for('static', filename='img/icon_base.png') }}" alt="icon_base">
+        </a>
+
+        <div class="Top_menu">
+            <ul>
+                {% if current_user.role == 'moderator' %}
+                    <li><a href="{{ url_for('create_task') }}">Создание задачи</a></li>
+                    <li><a href="{{ url_for('change_task') }}">Изменение задачи</a></li>
+                    <li><a href="{{ url_for('all_history') }}">История всех задач</a></li>
+                    <li><a href="{{ url_for('user_stat') }}">Статистика работников</a></li>
+                {% elif current_user.role == 'worker' %}
+                    <li><a href="{{ url_for('tasks') }}">Ваши задачи</a></li>
+                    <li><a href="{{ url_for('history') }}">История задач</a></li>
+                {% endif %}
+            </ul>
+        </div>
+
+        <div class="Auth_buttons">
+            {% if current_user.role == 'moderator' or current_user.role == 'worker' %}
+                <button class="rubik-mono-one-regular" onclick="window.location.href = '{{ url_for('logout') }}';">Выйти</button>
+            {% else %}
+                <button class="rubik-mono-one-regular" onclick="window.location.href = '{{ url_for('login_page') }}';">Войти</button>
+                <button class="rubik-mono-one-regular" onclick="window.location.href = '{{ url_for('registration') }}';">Зарегистрироваться</button>
+            {% endif %}
+        </div>
+
+    </header>
+
+    <main>
+
+        <h1 class="title kelly-slab-regular"><strong>Добро пожаловать в Task Manager</strong> </h1>
+
+        <div class="main_inf kelly-slab-regular">
+            <p> &emsp; Управление задачами — ключевой элемент эффективной работы.
+                Task Manager предоставляет вам возможность организовать, отслеживать и завершать задачи с легкостью.
+                Независимо от того, работаете ли вы в команде или самостоятельно,
+                наш интуитивно понятный интерфейс поможет вам держать все под контролем.
+            </p><br>
+
+            <p> &emsp; Основные функции для модераторов:</p>
+            <ol>
+                <li>Создание и управление задачами: Легко создавайте новые задачи, устанавливайте им нужные параметры.</li>
+                <li>Отслеживание задач у работников: Просматриваете задачи работников вместе с их статусом.</li>
+                <li>Следите за рейтингом работников: Можно просматривать рейтинг всех работников.</li>
+            </ol><br>
+
+            <p> &emsp; Основные функции для работников:</p>
+            <ol>
+                <li>Простая сдача задач: Можно отмечать выполненные задания.</li>
+                <li>Отслеживание задач: Просматриваете свои задачи вместе с их статусом.</li>
+            </ol>
+        </div>
+
+    </main>
+
+</body>
+</html>

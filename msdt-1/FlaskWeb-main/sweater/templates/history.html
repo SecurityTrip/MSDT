@@ -1,0 +1,68 @@
+<!doctype html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+
+    <meta name="author" content="Danila Nenashev" />
+
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/main.css') }}">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Rubik+Mono+One&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Kelly+Slab&display=swap" rel="stylesheet">
+
+    <title>История задач</title>
+</head>
+<body>
+    <header class='rubik-mono-one-regular'>
+        <a class="link_img" href="/">
+          <img class="header__img" src="{{ url_for('static', filename='img/icon_base.png') }}" alt="icon_base">
+        </a>
+
+        <div class="Top_menu">
+            <ul>
+                {% if current_user.role == 'worker' %}
+                    <li><a href="{{ url_for('tasks') }}">Ваши задачи</a></li>
+                    <li><a href="{{ url_for('history') }}" class="nav-link px-3 link-secondary" >История задач</a></li>
+                {% endif %}
+            </ul>
+        </div>
+
+        <div class="Auth_buttons">
+                <button class='rubik-mono-one-regular' onclick="window.location.href = '{{ url_for('logout') }}';">Выйти</button>
+        </div>
+    </header>
+
+    <main>
+        <h1 class="title kelly-slab-regular"><strong>История задач</strong></h1>
+
+        {% for task in tasks %}
+            <br>
+
+            <div class="task-container kelly-slab-regular">
+                <p class="task-info"><strong>Название: </strong> {{ task.name }}</p>
+                <p class="task-info"><strong>Описание: </strong> {{ task.description }}</p>
+                <p class="task-info">
+                    <strong>Над задачей работали:</strong>
+                    {% for user_task in task.users_tasks %}
+                        {{ user_task.user.login }},
+                    {% endfor %}
+                </p>
+                <p class="task-info"><strong>Дата начала: </strong> {{ task.start_date }}</p>
+                <p class="task-info"><strong>Дата окончания: </strong> {{ task.end_date }}</p>
+                <p class="task-info">
+                    <strong>Статус:</strong>
+                    <span class="{% if task.status == 'Выполнено' %} status-done {% elif task.status == 'Невыполнено' %} status-pending {% endif %}">
+                        {{ task.status }}
+                    </span>
+                </p>
+            </div>
+
+            <br>
+        {% endfor %}
+    </main>
+
+
+</body>
+</html>
