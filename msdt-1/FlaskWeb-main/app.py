@@ -1,4 +1,4 @@
-from sweater import app, db
+from sweater import app
 
 # Проверка, является ли данный файл основным модулем
 if __name__ == '__main__':

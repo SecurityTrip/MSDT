@@ -2,6 +2,7 @@ from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
 from flask_login import LoginManager
 from flask_apscheduler import APScheduler
+from sweater.tasks import check_deadlines  # Импорт задачи проверки дедлайнов
 
 # Инициализация приложения Flask
 app = Flask(__name__)
@@ -20,10 +21,6 @@ app.config.from_object(Config())
 scheduler = APScheduler()  # Инициализация планировщика задач
 scheduler.init_app(app)  # Привязка планировщика к приложению
 scheduler.start()  # Запуск планировщика
-
-# Импорт моделей и маршрутов
-from sweater import models, routes
-from sweater.tasks import check_deadlines  # Импорт задачи проверки дедлайнов
 
 # Добавление задачи в планировщик
 scheduler.add_job(id='check_deadlines', func=check_deadlines, trigger='interval', seconds=20)  # Задача будет выполняться каждые 20 секунд
