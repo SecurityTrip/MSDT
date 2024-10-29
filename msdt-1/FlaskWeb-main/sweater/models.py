@@ -1,12 +1,14 @@
 from flask_login import UserMixin
 from sweater import db, manager
 
+
 class Category(db.Model):
     __tablename__ = 'Category'
 
     category_id = db.Column(db.Integer, primary_key=True)  # Уникальный идентификатор категории
     description = db.Column(db.Text, nullable=False)        # Описание категории
     complexity = db.Column(db.BigInteger, nullable=False)   # Сложность категории
+
 
 class Task(db.Model):
     __tablename__ = 'Task'
@@ -23,6 +25,7 @@ class Task(db.Model):
 
     # Связь с моделью Category
     category = db.relationship('Category', backref=db.backref('tasks', lazy=True))
+
 
 class User(db.Model, UserMixin):
     __tablename__ = 'Users'
@@ -53,6 +56,7 @@ class User(db.Model, UserMixin):
     def __str__(self):
         return f"{self.user_id} - {self.login}"
 
+
 class UsersTask(db.Model):
     __tablename__ = 'UsersTask'
 
@@ -62,6 +66,7 @@ class UsersTask(db.Model):
     # Связи с пользователем и задачей
     user = db.relationship('User', backref=db.backref('users_tasks', lazy=True))
     task = db.relationship('Task', backref=db.backref('users_tasks', lazy=True))
+
 
 @manager.user_loader
 def load_user(user_id):

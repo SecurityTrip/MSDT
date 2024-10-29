@@ -13,6 +13,7 @@ app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://postgres:Jomangos123@local
 db = SQLAlchemy(app)  # Инициализация SQLAlchemy
 manager = LoginManager(app)  # Инициализация менеджера аутентификации
 
+
 # Настройка APScheduler
 class Config:
     SCHEDULER_API_ENABLED = True  # Включение API для планировщика
