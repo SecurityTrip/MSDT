@@ -3,23 +3,27 @@ from flask_sqlalchemy import SQLAlchemy
 from flask_login import LoginManager
 from flask_apscheduler import APScheduler
 
+# Инициализация приложения Flask
 app = Flask(__name__)
-app.secret_key = 'Danila'
-app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://postgres:Jomangos123@localhost:1234/web'
-db = SQLAlchemy(app)
-manager = LoginManager(app)
+app.secret_key = 'Danila'  # Секретный ключ для сессий
+app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://postgres:Jomangos123@localhost:1234/web'  # URI базы данных
+
+# Инициализация расширений
+db = SQLAlchemy(app)  # Инициализация SQLAlchemy
+manager = LoginManager(app)  # Инициализация менеджера аутентификации
 
 # Настройка APScheduler
 class Config:
-    SCHEDULER_API_ENABLED = True
+    SCHEDULER_API_ENABLED = True  # Включение API для планировщика
 
 app.config.from_object(Config())
-scheduler = APScheduler()
-scheduler.init_app(app)
-scheduler.start()
+scheduler = APScheduler()  # Инициализация планировщика задач
+scheduler.init_app(app)  # Привязка планировщика к приложению
+scheduler.start()  # Запуск планировщика
 
+# Импорт моделей и маршрутов
 from sweater import models, routes
-from sweater.tasks import check_deadlines  # Импорт задачи
+from sweater.tasks import check_deadlines  # Импорт задачи проверки дедлайнов
 
-# Добавляем задачу в планировщик
-scheduler.add_job(id='check_deadlines', func=check_deadlines, trigger='interval', seconds=20)
+# Добавление задачи в планировщик
+scheduler.add_job(id='check_deadlines', func=check_deadlines, trigger='interval', seconds=20)  # Задача будет выполняться каждые 20 секунд
