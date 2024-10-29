@@ -50,7 +50,9 @@ def edit_task(task_id):
             flash('Описание не может быть пустым')
         elif len(user_ids) == 0:
             flash('У задания должны быть исполнители')
-        elif datetime.strptime(new_deadline, '%Y-%m-%dT%H:%M') <= datetime.now().replace(microsecond=0):
+        elif (datetime.strptime(new_deadline, '%Y-%m-%dT%H:%M') <= datetime
+                .now()
+                .replace(microsecond=0)):
             flash('Дедлайн не может быть таким')
         elif not new_deadline.strip():
             flash('Дедлайн не может быть пустым')
@@ -93,7 +95,9 @@ def create_task():
             flash('Название не может быть пустым')
         elif not deadline.strip():
             flash('Дедлайн не может быть пустым')
-        elif datetime.strptime(deadline, '%Y-%m-%dT%H:%M') <= datetime.now().replace(microsecond=0):
+        elif (datetime.strptime(deadline, '%Y-%m-%dT%H:%M') <= datetime
+                .now()
+                .replace(microsecond=0)):
             flash('Дедлайн не может быть таким')
         elif len(user_ids) == 0:
             flash('У задания должны быть исполнители')
@@ -101,8 +105,8 @@ def create_task():
             flash('Описание не может быть пустым')
         else:
             # Создание новой задачи
-            new_task = Task(name=name, description=description, start_date=start_date, deadline=deadline, status=status,
-                            category_id=category_id)
+            new_task = Task(name=name, description=description, start_date=start_date,
+                            deadline=deadline, status=status, category_id=category_id)
             db.session.add(new_task)
             db.session.commit()  # Сохранение новой задачи
 
@@ -122,7 +126,8 @@ def create_task():
 def tasks():
     # Получение задач текущего пользователя со статусом "В процессе"
     user_tasks = current_user.users_tasks
-    in_progress_tasks = [user_task.task for user_task in user_tasks if user_task.task.status == 'В процессе']
+    in_progress_tasks = [user_task.task for user_task in user_tasks
+                         if user_task.task.status == 'В процессе']
     in_progress_tasks.sort(key=lambda task: task.deadline)  # Сортировка по дедлайну
     return render_template('tasks.html', tasks=in_progress_tasks)
 
@@ -148,7 +153,8 @@ def history():
     user_tasks = current_user.users_tasks
     two_status_tasks = [user_task.task for user_task in user_tasks if
                         user_task.task.status in ['Выполнено', 'Невыполнено']]
-    two_status_tasks.sort(key=lambda task: (task.status != 'Невыполнено', task.status))  # Сортировка
+    two_status_tasks.sort(key=lambda task: (task.status != 'Невыполнено',
+                                            task.status))  # Сортировка
     return render_template('history.html', tasks=two_status_tasks)
 
 
@@ -162,13 +168,17 @@ def user_stat():
         user_stat2 = {
             'login': user.login,
             'rating': user.calculate_rating(),
-            'completed_tasks': len([task for task in user.users_tasks if task.task.status == 'Выполнено']),
-            'failed_tasks': len([task for task in user.users_tasks if task.task.status == 'Невыполнено']),
-            'in_progress_tasks': len([task for task in user.users_tasks if task.task.status == 'В процессе'])
+            'completed_tasks': len([task for task in user.users_tasks
+                                    if task.task.status == 'Выполнено']),
+            'failed_tasks': len([task for task in user.users_tasks
+                                 if task.task.status == 'Невыполнено']),
+            'in_progress_tasks': len([task for task in user.users_tasks
+                                      if task.task.status == 'В процессе'])
         }
         user_stats.append(user_stat2)
 
-    sorted_user_stats = sorted(user_stats, key=lambda x: x['rating'], reverse=True)  # Сортировка по рейтингу
+    sorted_user_stats = sorted(user_stats, key=lambda x: x['rating'],
+                               reverse=True)  # Сортировка по рейтингу
     return render_template('user_stat.html', user_stats=sorted_user_stats)
 
 

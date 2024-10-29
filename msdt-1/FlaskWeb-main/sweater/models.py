@@ -18,7 +18,8 @@ class Task(db.Model):
     end_date = db.Column(db.DateTime)                       # Дата окончания задачи
     deadline = db.Column(db.DateTime, nullable=False)      # Дедлайн задачи
     status = db.Column(db.Text, nullable=False)             # Статус задачи
-    category_id = db.Column(db.BigInteger, db.ForeignKey('Category.category_id'), nullable=False)  # Ссылка на категорию
+    category_id = db.Column(db.BigInteger, db.ForeignKey('Category.category_id'),
+                            nullable=False)  # Ссылка на категорию
 
     # Связь с моделью Category
     category = db.relationship('Category', backref=db.backref('tasks', lazy=True))
