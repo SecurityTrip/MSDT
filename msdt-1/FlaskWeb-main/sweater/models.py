@@ -1,7 +1,5 @@
 from flask_login import UserMixin
-
 from sweater import db, manager
-
 
 class Category(db.Model):
     __tablename__ = 'Category'
@@ -9,7 +7,6 @@ class Category(db.Model):
     category_id = db.Column(db.Integer, primary_key=True)
     description = db.Column(db.Text, nullable=False)
     complexity = db.Column(db.BigInteger, nullable=False)
-
 
 class Task(db.Model):
     __tablename__ = 'Task'
@@ -24,7 +21,6 @@ class Task(db.Model):
     category_id = db.Column(db.BigInteger, db.ForeignKey('Category.category_id'), nullable=False)
 
     category = db.relationship('Category', backref=db.backref('tasks', lazy=True))
-
 
 class User(db.Model, UserMixin):
     __tablename__ = 'Users'
@@ -44,14 +40,15 @@ class User(db.Model, UserMixin):
 
     def calculate_rating(self):
         completed_tasks = sum(
-            task.task.category.complexity for task in self.users_tasks if task.task.status == 'Выполнено')
+            task.task.category.complexity for task in self.users_tasks if task.task.status == 'Выполнено'
+        )
         failed_tasks = sum(
-            task.task.category.complexity for task in self.users_tasks if task.task.status == 'Невыполнено')
+            task.task.category.complexity for task in self.users_tasks if task.task.status == 'Невыполнено'
+        )
         return completed_tasks - failed_tasks
 
     def __str__(self):
-        return self.user_id + self.login
-
+        return str(self.user_id) + self.login
 
 class UsersTask(db.Model):
     __tablename__ = 'UsersTask'
@@ -61,7 +58,6 @@ class UsersTask(db.Model):
 
     user = db.relationship('User', backref=db.backref('users_tasks', lazy=True))
     task = db.relationship('Task', backref=db.backref('users_tasks', lazy=True))
-
 
 @manager.user_loader
 def load_user(user_id):

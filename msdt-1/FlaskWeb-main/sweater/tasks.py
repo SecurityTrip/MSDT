@@ -5,7 +5,6 @@ from pytz import timezone
 
 local_tz = timezone('Europe/Samara')
 
-
 def check_deadlines():
     with scheduler.app.app_context():
         now = datetime.now(local_tz).replace(microsecond=0)
