@@ -7,7 +7,8 @@ from sweater.tasks import check_deadlines  # Импорт задачи пров�
 # Инициализация приложения Flask
 app = Flask(__name__)
 app.secret_key = 'Danila'  # Секретный ключ для сессий
-app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://postgres:Jomangos123@localhost:1234/web'  # URI базы данных
+app.config['SQLALCHEMY_DATABASE_URI'] = \
+    'postgresql://postgres:Jomangos123@localhost:1234/web'  # URI базы данных
 
 # Инициализация расширений
 db = SQLAlchemy(app)  # Инициализация SQLAlchemy
@@ -24,4 +25,7 @@ scheduler.init_app(app)  # Привязка планировщика к прил
 scheduler.start()  # Запуск планировщика
 
 # Добавление задачи в планировщик
-scheduler.add_job(id='check_deadlines', func=check_deadlines, trigger='interval', seconds=20)  # Задача будет выполняться каждые 20 секунд
+scheduler.add_job(id='check_deadlines',
+                  func=check_deadlines,
+                  trigger='interval',
+                  seconds=20)  # Задача будет выполняться каждые 20 секунд
