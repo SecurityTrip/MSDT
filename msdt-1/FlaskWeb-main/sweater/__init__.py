@@ -2,7 +2,7 @@ from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
 from flask_login import LoginManager
 from flask_apscheduler import APScheduler
-from sweater.tasks import check_deadlines  # Импорт задачи проверки дедлайнов
+from tasks import check_deadlines  # Импорт задачи проверки дедлайнов
 
 # Инициализация приложения Flask
 app = Flask(__name__)

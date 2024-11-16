@@ -123,7 +123,7 @@ def create_task():
 
 @app.route("/tasks")
 @login_required
-def get_tasks():
+def get_progress_tasks():
     # Получение задач текущего пользователя со статусом "В процессе"
     user_tasks = current_user.users_tasks
     in_progress_tasks = [user_task.task for user_task in user_tasks
@@ -148,7 +148,7 @@ def finish_task(task_id):
 
 @app.route("/history")
 @login_required
-def get_history():
+def get_task_results_history():
     # Получение задач текущего пользователя со статусами "Выполнено" и "Невыполнено"
     user_tasks = current_user.users_tasks
     two_status_tasks = [user_task.task for user_task in user_tasks if
@@ -193,7 +193,7 @@ def open_login_page():
             login_user(user)
             # Редирект в зависимости от роли пользователя
             if user.role == 'worker':
-                return redirect(url_for('get_tasks'))
+                return redirect(url_for('get_progress_tasks'))
             elif user.role == 'moderator':
                 return redirect(url_for('get_all_history'))
         else:
@@ -212,7 +212,7 @@ def logout():
 
 
 @app.route("/registration", methods=['GET', 'POST'])
-def registration():
+def open_registration_page():
     login = request.form.get('login')
     password = request.form.get('password')
     password2 = request.form.get('password2')
