@@ -8,3 +8,4 @@
 5. [Unit tests](msdt-5/README.md)
 6. [Профайлинг и оптимизация производительности](msdt-6/README.md)
 7. [Асинхронное программирование](msdt-7/README.md)
+8. [Рефакторинг](msdt-8/README.md)
