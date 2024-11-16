@@ -3,18 +3,18 @@ from flask import render_template, request, flash, redirect, url_for, jsonify
 from flask_login import login_user, login_required, logout_user, current_user
 from werkzeug.security import check_password_hash, generate_password_hash
 from sweater import app, db
-from sweater.models import User, Task, UsersTask
+from models import User, Task, UsersTask
 
 
 @app.route("/")
 @app.route("/home")
-def home():
+def open_home_page():
     return render_template('home.html')
 
 
 @app.route("/all_history")
 @login_required
-def all_history():
+def get_all_history():
     # Получение всех задач, отсортированных по статусу и дедлайну
     all_tasks = Task.query.order_by(Task.status).order_by(Task.deadline).all()
     return render_template('all_history.html', tasks=all_tasks)
@@ -70,7 +70,7 @@ def edit_task(task_id):
             task.deadline = new_deadline
             task.category_id = request.form.get('category_id')
             db.session.commit()  # Сохранение изменений
-            return redirect(url_for('all_history'))
+            return redirect(url_for('get_all_history'))
 
     return render_template('edit_task.html', task=task, users=workers)
 
@@ -116,14 +116,14 @@ def create_task():
                 db.session.add(new_user_task)
             db.session.commit()  # Сохранение привязок
 
-            return redirect(url_for('all_history'))
+            return redirect(url_for('get_all_history'))
 
     return render_template('create_task.html', users=workers)
 
 
 @app.route("/tasks")
 @login_required
-def tasks():
+def get_tasks():
     # Получение задач текущего пользователя со статусом "В процессе"
     user_tasks = current_user.users_tasks
     in_progress_tasks = [user_task.task for user_task in user_tasks
@@ -134,7 +134,7 @@ def tasks():
 
 @app.route("/complete_task/<int:task_id>", methods=['POST'])
 @login_required
-def complete_task(task_id):
+def finish_task(task_id):
     task = Task.query.get(task_id)
     if task:
         # Изменение статуса задачи на "Выполнено"
@@ -148,7 +148,7 @@ def complete_task(task_id):
 
 @app.route("/history")
 @login_required
-def history():
+def get_history():
     # Получение задач текущего пользователя со статусами "Выполнено" и "Невыполнено"
     user_tasks = current_user.users_tasks
     two_status_tasks = [user_task.task for user_task in user_tasks if
@@ -160,7 +160,7 @@ def history():
 
 @app.route("/user_stat")
 @login_required
-def user_stat():
+def get_user_stat():
     # Получение статистики пользователей
     users = User.query.filter_by(role='worker').all()
     user_stats = []
@@ -183,7 +183,7 @@ def user_stat():
 
 
 @app.route("/login", methods=['POST', 'GET'])
-def login_page():
+def open_login_page():
     login = request.form.get('login')
     password = request.form.get('password')
 
@@ -193,9 +193,9 @@ def login_page():
             login_user(user)
             # Редирект в зависимости от роли пользователя
             if user.role == 'worker':
-                return redirect(url_for('tasks'))
+                return redirect(url_for('get_tasks'))
             elif user.role == 'moderator':
-                return redirect(url_for('all_history'))
+                return redirect(url_for('get_all_history'))
         else:
             flash('Логин или пароль неверны')
     else:
@@ -208,7 +208,7 @@ def login_page():
 @login_required
 def logout():
     logout_user()  # Выход пользователя
-    return redirect(url_for('home'))
+    return redirect(url_for('open_home_page'))
 
 
 @app.route("/registration", methods=['GET', 'POST'])
@@ -234,7 +234,7 @@ def registration():
             new_user = User(login=login, password=hash_pwd, role=role)
             db.session.add(new_user)
             db.session.commit()  # Сохранение нового пользователя
-            return redirect(url_for('login_page'))
+            return redirect(url_for('open_login_page'))
 
     return render_template('registration.html')
 

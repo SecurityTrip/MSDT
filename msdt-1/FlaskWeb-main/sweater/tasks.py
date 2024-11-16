@@ -1,6 +1,6 @@
 from datetime import datetime
 from sweater import db, scheduler
-from sweater.models import Task
+from models import Task
 from pytz import timezone
 
 # Определение локального часового пояса
